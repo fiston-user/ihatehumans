@@ -1,14 +1,29 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Terminal as TerminalIcon, Cpu, Zap, Ghost } from 'lucide-react';
+import {
+  Terminal as TerminalIcon,
+  Cpu,
+  Zap,
+  Ghost,
+  ChevronDown,
+  ChevronUp,
+  ExternalLink,
+} from 'lucide-react';
 import MatrixRain from '../components/MatrixRain';
 import FirewallVisualizer from '../components/FirewallVisualizer';
 import DecryptionMinigame from '../components/DecryptionMinigame';
 import NmapMinigame from '../components/NmapMinigame';
 import ProjectCard from '../components/ProjectCard';
+import BootSequence from '../components/BootSequence';
+import WelcomeScreen from '../components/WelcomeScreen';
+import VirtualFileSystem from '../components/VirtualFileSystem';
 import { ASCII_ART, LOADING_FRAMES, HINT_DELAY, projects } from '../constants';
+import AsciiArtGallery from './AsciiArtGallery';
+import InteractiveCV from './InteractiveCV';
+import CyberpunkQuest from './CyberpunkQuest';
+import NeuralNetworkVisualizer from './NeuralNetworkVisualizer';
 
 const Terminal = () => {
-  const [stage, setStage] = useState('boot');
+  const [stage, setStage] = useState('welcome');
   const [input, setInput] = useState('');
   const [output, setOutput] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -20,12 +35,15 @@ const Terminal = () => {
   const [commandHistory, setCommandHistory] = useState([]);
   const [historyIndex, setHistoryIndex] = useState(-1);
   const [tabCompletions, setTabCompletions] = useState([]);
+  const [cyberpunkQuest, setCyberpunkQuest] = useState(null);
+  const [neuralNetVisualizer, setNeuralNetVisualizer] = useState(null);
+  const [vfs] = useState(new VirtualFileSystem());
   const inputRef = useRef(null);
   const outputRef = useRef(null);
 
   useEffect(() => {
     if (stage === 'boot') {
-      bootSequence();
+      setOutput([]);
     }
     inputRef.current?.focus();
   }, [stage]);
@@ -58,17 +76,12 @@ const Terminal = () => {
     return () => clearInterval(hintInterval);
   }, [stage]);
 
-  const bootSequence = async () => {
-    setLoading(true);
-    await typeWriter('Initializing system...');
-    await new Promise((r) => setTimeout(r, 1000));
-    await typeWriter('Loading kernel...');
-    await new Promise((r) => setTimeout(r, 1000));
-    await typeWriter('Establishing secure connection...');
-    await new Promise((r) => setTimeout(r, 1000));
-    setLoading(false);
+  const handleStart = () => {
+    setStage('boot');
+  };
+
+  const handleBootComplete = () => {
     setOutput((prev) => [...prev, { type: 'ascii', content: ASCII_ART }]);
-    await typeWriter('Access denied. Initiating bypass sequence...');
     setStage('hack');
   };
 
@@ -125,6 +138,10 @@ const Terminal = () => {
       'decrypt',
       'nmap',
       'firewall',
+      'cd',
+      'ls',
+      'cat',
+      'pwd',
     ];
     const matchingCommands = commands.filter((cmd) => cmd.startsWith(input));
 
@@ -157,12 +174,12 @@ const Terminal = () => {
     switch (command.toLowerCase()) {
       case 'help':
         await typeWriter(
-          'Available commands: about, skills, projects, contact, clear, hack, matrix, decrypt, nmap, firewall'
+          'Available commands: about, skills, projects, contact, clear, hack, matrix, decrypt, nmap, firewall, cd, ls, cat, pwd, ascii, cv, cyberpunk, nn'
         );
         break;
       case 'about':
         await typeWriter(
-          "I'm a full-stack developer with a passion for pushing technological boundaries."
+          "I'm a cyber-security expert and full-stack developer with a passion for pushing technological boundaries."
         );
         break;
       case 'skills':
@@ -187,7 +204,9 @@ const Terminal = () => {
         }
         break;
       case 'contact':
-        await typeWriter('Email: myles@contact.com | GitHub: @fiston-user | LinkedIn: in/myles');
+        await typeWriter(
+          'Email: you@example.com | GitHub: @yourusername | LinkedIn: in/yourusername'
+        );
         break;
       case 'clear':
         setOutput([]);
@@ -211,6 +230,89 @@ const Terminal = () => {
         break;
       case 'firewall':
         setOutput((prev) => [...prev, { type: 'firewall', content: firewall }]);
+        break;
+      case 'cd':
+        await typeWriter(vfs.cd(args[0] || ''));
+        break;
+      case 'ls':
+        await typeWriter(vfs.ls());
+        break;
+      case 'cat':
+        await typeWriter(vfs.cat(args[0]));
+        break;
+      case 'pwd':
+        await typeWriter(vfs.pwd());
+        break;
+      case 'ascii':
+        if (args[0] === 'list') {
+          await typeWriter(`Available ASCII art: ${AsciiArtGallery.list()}`);
+        } else if (args[0]) {
+          const art = AsciiArtGallery.display(args[0]);
+          setOutput((prev) => [...prev, { type: 'ascii-art', content: art }]);
+        } else {
+          await typeWriter('Usage: ascii list | ascii <artwork-name>');
+        }
+        break;
+      case 'cv':
+        if (args.length === 0) {
+          await typeWriter(
+            'Usage: cv <section> | Sections: summary, education, experience, skills, projects, all'
+          );
+        } else {
+          switch (args[0].toLowerCase()) {
+            case 'summary':
+              await typeWriter(InteractiveCV.getSummary());
+              break;
+            case 'education':
+              await typeWriter(InteractiveCV.getEducation());
+              break;
+            case 'experience':
+              await typeWriter(InteractiveCV.getExperience());
+              break;
+            case 'skills':
+              await typeWriter(InteractiveCV.getSkills());
+              break;
+            case 'projects':
+              await typeWriter(InteractiveCV.getProjects());
+              break;
+            case 'all':
+              await typeWriter(InteractiveCV.getAll());
+              break;
+            default:
+              await typeWriter(
+                'Invalid section. Available sections: summary, education, experience, skills, projects, all'
+              );
+          }
+        }
+        break;
+      case 'cyberpunk':
+        if (!cyberpunkQuest) {
+          setCyberpunkQuest(new CyberpunkQuest());
+          await typeWriter("Welcome to Cyberpunk Quest! Type 'cyberpunk help' for commands.");
+          await typeWriter(new CyberpunkQuest().start());
+        } else {
+          if (args[0] === 'help') {
+            await typeWriter(
+              'Available commands: go, look, take, inventory, use, hack, fight, extract'
+            );
+          } else {
+            await typeWriter(cyberpunkQuest.processCommand(args.join(' ')));
+          }
+        }
+        break;
+      case 'nn':
+        if (!neuralNetVisualizer) {
+          setNeuralNetVisualizer(new NeuralNetworkVisualizer());
+          await typeWriter("Neural Network Visualizer initialized. Use 'nn help' for commands.");
+        } else {
+          if (args[0] === 'help') {
+            await typeWriter(
+              'Available commands:\nnn create <inputNodes> <hiddenNodes> <outputNodes>\nnn train <inputs>|<targets>|<epochs>\nnn run <inputs>'
+            );
+          } else {
+            await typeWriter(neuralNetVisualizer.processCommand(args.join(' ')));
+          }
+        }
         break;
       default:
         await typeWriter(`Command not recognized: ${command}`);
@@ -239,6 +341,12 @@ const Terminal = () => {
         );
       case 'project':
         return <ProjectCard key={index} project={line.content} expanded />;
+      case 'ascii-art':
+        return (
+          <pre key={index} className="text-green-400 whitespace-pre">
+            {line.content}
+          </pre>
+        );
       default:
         return (
           <pre
@@ -259,6 +367,14 @@ const Terminal = () => {
         );
     }
   };
+
+  if (stage === 'welcome') {
+    return <WelcomeScreen onStart={handleStart} />;
+  }
+
+  if (stage === 'boot') {
+    return <BootSequence onComplete={handleBootComplete} />;
+  }
 
   return (
     <>
