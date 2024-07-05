@@ -1,70 +1,97 @@
-# Getting Started with Create React App
+# Hacker-Themed Interactive Portfolio
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Created by Myles
 
-## Available Scripts
+## Overview
 
-In the project directory, you can run:
+This project is an interactive, hacker-themed portfolio website that simulates a command-line interface. It showcases various skills and projects through unique, engaging features such as a virtual file system, ASCII art gallery, interactive CV, a text-based adventure game, and even a neural network visualizer.
 
-### `npm start`
+## Features
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+1. **Command-Line Interface**: Navigate the portfolio using familiar terminal commands.
+2. **Virtual File System**: Explore a simulated file structure containing information about projects and skills.
+3. **ASCII Art Gallery**: View a collection of ASCII artwork.
+4. **Interactive CV**: Access different sections of the CV using specific commands.
+5. **Cyberpunk Quest**: Play a text-based adventure game set in a cyberpunk world.
+6. **Neural Network Visualizer**: Create, train, and visualize simple neural networks in real-time.
+7. **Hacking Minigames**: Engage with decryption and network scanning challenges.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Setup
 
-### `npm test`
+1. Clone the repository:
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+   ```
+   git clone https://github.com/yourusername/hacker-portfolio.git
+   cd hacker-portfolio
+   ```
 
-### `npm run build`
+2. Install dependencies:
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+   ```
+   npm install
+   ```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+3. Start the development server:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+   ```
+   npm start
+   ```
 
-### `npm run eject`
+4. Open `http://localhost:3000` in your browser.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## Usage
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Here are some of the main commands you can use in the portfolio:
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+- `help`: List all available commands
+- `about`: Display information about Myles
+- `skills`: Show a list of skills
+- `projects`: View projects
+- `cv [section]`: Access different parts of the CV (e.g., `cv summary`, `cv experience`)
+- `ascii [art_name]`: Display ASCII art
+- `cyberpunk`: Start the Cyberpunk Quest game
+- `nn`: Access the Neural Network Visualizer
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+### Virtual File System Commands
 
-## Learn More
+- `cd [directory]`: Change directory
+- `ls`: List contents of the current directory
+- `cat [filename]`: Display contents of a file
+- `pwd`: Print working directory
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### Cyberpunk Quest Commands
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+- `cyberpunk help`: Show game-specific commands
+- `cyberpunk look`: Examine your surroundings
+- `cyberpunk go [direction]`: Move in a specified direction
+- `cyberpunk take [item]`: Pick up an item
+- `cyberpunk inventory`: Check your inventory
 
-### Code Splitting
+### Neural Network Visualizer Commands
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+- `nn create [inputNodes] [hiddenNodes] [outputNodes]`: Create a new neural network
+- `nn train [inputs]|[targets]|[epochs]`: Train the neural network
+- `nn run [inputs]`: Run the trained network with given inputs
 
-### Analyzing the Bundle Size
+## Customization
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+To customize the portfolio content:
 
-### Making a Progressive Web App
+1. Update the project information in `src/constants.js`
+2. Modify the CV data in `src/components/InteractiveCV.js`
+3. Add or change ASCII art in `src/components/AsciiArtGallery.js`
+4. Expand the virtual file system in `src/components/VirtualFileSystem.js`
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+## Contributing
 
-### Advanced Configuration
+Contributions are welcome! Please feel free to submit a Pull Request.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+## License
 
-### Deployment
+This project is open source and available under the [MIT License](LICENSE).
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+## Contact
 
-### `npm run build` fails to minify
+Myles - [contact@fiston.me] - [Myles]
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Project Link: [https://github.com/fiston-user/ihatehumans](https://github.com/yourusername/hacker-portfolio)
