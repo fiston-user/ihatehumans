@@ -21,8 +21,8 @@ This project is an interactive, hacker-themed portfolio website that simulates a
 1. Clone the repository:
 
    ```
-   git clone https://github.com/yourusername/hacker-portfolio.git
-   cd hacker-portfolio
+   git clone https://github.com/fiston-user/ihatehumans
+   cd ihatehumans
    ```
 
 2. Install dependencies:
